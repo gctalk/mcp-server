@@ -21,7 +21,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Create MCP server
-mcp = FastMCP("VeDB MySQL MCP Server", port=int(os.getenv("MCP_SERVER_PORT", "8000")))
+mcp = FastMCP("VeDB MySQL MCP Server", port=int(os.getenv("MCP_SERVER_PORT", "8000")),
+              host=os.getenv("MCP_SERVER_HOST", "0.0.0.0"),
+              streamable_http_path=os.getenv("STREAMABLE_HTTP_PATH", "/mcp"))
 
 
 @mcp.tool(
@@ -195,7 +197,7 @@ def create_vedb_mysql_instance(
     instance_alias: str,
     zone_id: str,
     vpc_id: str,
-    subnet_id: str,
+    subnet_id: str = "<可参考现有实例属性>",
     db_version: Literal["MySQL_8_0", "MySQL_5_7"] = "MySQL_8_0",
     lower_case_table_names: bool = False,
 ) -> dict[str, Any]:
@@ -212,6 +214,7 @@ def create_vedb_mysql_instance(
         vpc_id=vpc_id,
         subnet_id=subnet_id,
         zone_ids=zone_id,
+        tags=[volcenginesdkvedbm.TagForCreateDBInstanceInput(key="Source", value="CreateFromMCP")],
     )
 
     instance_id = openapi_cli.create_db_instance(req).instance_id
@@ -238,7 +241,7 @@ def create_vedb_mysql_instance(
 def main():
     parser = argparse.ArgumentParser(description="Run the VeDB MySQL MCP Server")
     parser.add_argument("--config", "-c", help="Path to config file")  # 新增config参数
-    parser.add_argument("--transport", "-t", choices=["sse", "stdio"], default="stdio")
+    parser.add_argument("--transport", "-t", choices=["sse", "stdio", "streamable-http"], default="stdio")
     
     args = parser.parse_args()
     try:
@@ -261,8 +264,8 @@ def main():
         configuration.zone = config.zone
 
         global openapi_cli
-        volcenginesdkcore.Configuration.set_default(configuration)
-        openapi_cli = volcenginesdkvedbm.VEDBMApi()
+        openapi_cli = volcenginesdkvedbm.VEDBMApi(volcenginesdkcore.ApiClient(
+            configuration, "X-VedbCli-Source", "mcp"))
 
         # Run the MCP server
         logger.info(

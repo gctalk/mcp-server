@@ -1,4 +1,4 @@
-from .vefaas_server import mcp
+from serverRemote import mcp
 
 def main():
     mcp.run(transport="streamable-http")

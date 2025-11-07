@@ -121,6 +121,7 @@ MCP Server列表 与 **[火山引擎大模型生态广场](https://www.volcengin
 
 ### **开发者工具**  
 
+- **[CCAPI MCP](https://github.com/volcengine/mcp-server/tree/main/server/mcp_server_ccapi)**：基于火山引擎的Cloud Control API管理火山资源的MCP工具。  
 - **[Browser-Use MCP](https://github.com/volcengine/mcp-server/tree/main/server/mcp_server_vefaas_browser_use)**：基于 Browser-use 的MCP浏览器工具。  
 - **[Code-Sandbox MCP](https://github.com/volcengine/mcp-server/tree/main/server/mcp_server_vefaas_sandbox)**：面向LLM 的代码沙箱。  
 - **[Computer-Use MCP](https://github.com/volcengine/mcp-server/tree/main/server/mcp_server_computer_use)**：自然语言驱动对云服务器实例内的应用进行高效的管理。  
@@ -163,6 +164,7 @@ MCP Server列表 与 **[火山引擎大模型生态广场](https://www.volcengin
 - **[Glean](https://github.com/longyi1207/glean-mcp-server)**：A server that uses Glean API to search and chat.  
 - **[Pinecone](https://github.com/sirmews/mcp-pinecone)**：MCP server for searching and uploading records to Pinecone.  
 - **[Elasticsearch](https://github.com/cr7258/elasticsearch-mcp-server)**：MCP server implementation that provides Elasticsearch interaction.  
+- **[AI搜索引擎](https://github.com/volcengine/mcp-server/tree/main/server/mcp_server_aisearch_engine)**：基于大模型的多模态语义表征和理解能力，结合字节跳动信息检索领域多年最佳实践，为客户提供开箱即用的 AI 搜索搭建平台服务，帮助客户轻松搭建和集成端到端的多模态图文搜索和推荐能力。
 
 
 ### **位置服务**  
@@ -179,6 +181,8 @@ MCP Server列表 与 **[火山引擎大模型生态广场](https://www.volcengin
 - **[必优-ChatPPT](https://github.com/YOOTeam/chatppt-mcp)**：必优科技智能文档MCP Server目前已经覆盖了18个智能文档的接口能力，包括但不限于PPT创作，PPT美化，PPT生成，简历创作，简历分析，人岗匹配等场景下的文档处理能力。  
 - **[Figma](https://github.com/GLips/Figma-Context-MCP)**：为 Agent 提供 Figma 文件的布局和样式信息，增强它们准确生成设计的能力。  
 - **[EverArt](https://github.com/modelcontextprotocol/servers/tree/main/src/everart)**：AI image generation using various models.  
+- **[联网问答Agent](https://github.com/volcengine/mcp-server/tree/main/server/mcp_server_askecho)**：基于联网搜索结果，提供端到端的AI问答能力。
+- **[SearchInfinity](https://github.com/volcengine/mcp-server/tree/main/server/mcp_server_askecho_search_infinity)**：提供联网搜索能力，助力AI大模型获取知识、提升回复准确性。
 
 
 ### **源码管理**  

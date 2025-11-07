@@ -1,6 +1,8 @@
 import logging
 import argparse
 import dataclasses
+import asyncio
+import os
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context
 from mcp import types
@@ -17,11 +19,14 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 config = None
-mcp = FastMCP("AskEcho MCP Server")
+mcp = FastMCP("AskEcho MCP Server",
+              host=os.getenv("MCP_SERVER_HOST", "0.0.0.0"),
+              port=int(os.getenv("MCP_SERVER_PORT", "8000")),
+              streamable_http_path=os.getenv("STREAMABLE_HTTP_PATH", "/mcp"))
 
 
 @mcp.tool()
-def chat_completion(
+async def chat_completion(
         messages: list[Message]
 ) -> Dict[str, Any]:
     """
@@ -50,16 +55,10 @@ def chat_completion(
             user_id="" if config.user_id is None else config.user_id
         )
         if config.api_key is not None and len(config.api_key) > 0:
-            resp = chat_completion_api_key_auth_api(config.api_key, req, "chat_completion")
-            resp.raise_for_status()
-            logger.info(f"Received chat_completion_api_key_auth_api response")
-            return resp.json()
+            return await chat_completion_api_key_auth_api(config.api_key, req, "chat_completion")
         else:
-            resp = chat_completion_volcengine_auth(config.volcengine_ak, config.volcengine_sk, req,
+            return await chat_completion_volcengine_auth(config.volcengine_ak, config.volcengine_sk, req,
                                                    "chat_completion")
-            resp.raise_for_status()
-            logger.info(f"Received chat_completion_volcengine_auth response")
-            return resp.json()
     except Exception as e:
         logger.error(f"Error in chat_completion tool: {e}")
         resp_error = ResponseError(
